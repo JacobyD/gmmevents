@@ -1,0 +1,42 @@
+---
+title: "README"
+authors: David Jacoby & Robin Freeman
+output: pdf_document
+---
+
+We provide a modified version of the Psorakis et al. (2012) GMMEvents code, 
+translated into R and implementing the "VBmix"" package (https://cran.r-project.org/web/packages/VBmix/index.html).
+We tested a number of Gaussian Mixture Model libraries for both Python and R programming language and VBmix library provided the most reliable results. The downside is that VBmix is currenly only available for Mac OS or Linux. However, this does mean that it can be run on cloud based platforms (e.g. Amazon Web Services, Azure (using linux), etc).
+
+To run the analyses from a mapped directory, open 'run_code.R' and follow instructions.
+
+Model parameters can be adjusted by changing the inference priors of the model within the function 'infer_graph_from_datastream_mm'. For example, you may wish to adjust the number of components in the posterior (prior_on_K) or alter the convergence threshold or the maximum number of iterations. Varying these parameters instructs whether the model has a preference towards a few or many clusters. 
+
+Data are input into the model as a time-series structured in following format; Time (col1), Individual ID (col2) and location (col3). 
+
+For each run of the model the following .csv files will be output from the ‘run_code.R’ script:
+
+* AdjMat_PRIME - Adjacency matrix of accumulated binary cooccurrences across events.
+* AdjMat_count - Adjacency matrix of accumulated detection counts for the individual within a dyad that was present for the shortest time.
+* AdjMat_pre_sig_count - A version of the above prior to the significance test.
+* AdjMat_dir - Directional prime adjacency matrix based on the chronology of arrival between individuals within a dyad, within an event.
+* AdjMat_dur - Adjacency matrix of accumulated overlapping shared detections across events (i.e. last detection of the first individual - first detection of the last individual).
+
+
+The model output (summarised by 'Summary' includes useful information on the makeup of identified clustering events and this can either be logged directly in the console or output as a text file. 
+
+Visual representation of these output files are produced...
+
+```{r}
+image(as.matrix(AdjMat_count))
+```
+
+and a rudementary network plot shown using the library(igraph), for example:
+
+```{r, echo=FALSE}
+net <- graph_from_adjacency_matrix(AdjMat_PRIME,mode="undirected",weighted=TRUE,diag=FALSE)
+lay <- layout.fruchterman.reingold(net)
+plot(net, layout=lay, vertex.label = Raw_IDs, edge.color = "grey60",
+     edge.width=(E(net)$weight/(max(E(net)$weight))*10))
+```
+
