@@ -6,9 +6,9 @@ output: pdf_document
 
 We provide a modified version of the Psorakis et al. (2012) GMMEvents code, 
 translated into R and implementing the "VBmix"" package (https://cran.r-project.org/web/packages/VBmix/index.html).
-We tested a number of Gaussian Mixture Model libraries for both Python and R programming language and VBmix library provided the most reliable results. The downside is that VBmix is currenly only available for Mac OS or Linux. However, this does mean that it can be run on cloud based platforms (e.g. Amazon Web Services, Azure (using linux), etc).
+We tested a number of Gaussian Mixture Model libraries for both Python and R programming languages and the VBmix library provided the most reliable results. The downside is that VBmix is currenly only available for Mac OS or Linux. However, this does mean that it can be run on cloud based platforms (e.g. Amazon Web Services, Azure (using linux), etc).
 
-To run the analyses from a mapped directory, open 'run_code.R' and follow instructions.
+To run the analyses from a mapped directory, open 'run_code.R' and follow instructions. We include four .csv files containing raw shark acoustic detection data analysed in the accompanying paper. 
 
 Model parameters can be adjusted by changing the inference priors of the model within the function 'infer_graph_from_datastream_mm'. For example, you may wish to adjust the number of components in the posterior (prior_on_K) or alter the convergence threshold or the maximum number of iterations. Varying these parameters instructs whether the model has a preference towards a few or many clusters. 
 
